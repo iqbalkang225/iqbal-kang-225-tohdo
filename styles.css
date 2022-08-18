@@ -1,0 +1,441 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #63831a;
+  --color-accent: #de1607;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-text: #eee;
+
+  --transition: all 0.2s linear;
+  --box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+}
+
+html {
+  font-size: 62.5%;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-size: 1.4rem;
+  line-height: 1.6;
+}
+
+.container {
+  min-height: 100vh;
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content min-content;
+}
+
+/* Popups */
+.new-project-popup {
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: none;
+}
+
+.new-project-colors {
+  display: flex;
+}
+
+.new-project-color {
+  width: 12px;
+  height: 12px;
+  background-color: tomato;
+  border-radius: 50%;
+}
+
+/* ========================== */
+/* navigation */
+
+.navigation {
+  display: none;
+}
+
+.icons {
+  font-size: 2.4rem;
+
+  /* margin-bottom: 4rem; */
+  padding: 2rem;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.icons > * {
+  cursor: pointer;
+}
+
+.icons > *:hover {
+  transition: var(--transition);
+  color: var(--color-accent);
+}
+
+.search-box {
+  padding: 2rem;
+}
+
+.search {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+
+  padding: 0.8rem 2.6rem;
+}
+
+.filter:hover {
+  transform: translateX(10px);
+}
+.check {
+  border: 1.5px solid var(--color-accent);
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  margin-right: 1.6rem;
+}
+
+.filter-name {
+  margin-right: auto;
+}
+
+.projects-box {
+  margin-top: 4rem;
+  width: 80%;
+  margin-left: auto;
+}
+
+.new-project {
+  display: flex;
+}
+
+.drop-down {
+  margin-right: 1.6rem;
+  font-size: 2rem;
+}
+
+.new-project span {
+  margin-right: auto;
+}
+
+.projects {
+  margin: 0 2rem;
+}
+
+.project {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 0rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.project:hover {
+  transform: translateX(10px);
+}
+
+.add-project {
+  opacity: 0.6;
+  font-size: 2rem;
+  margin-right: 1.6rem;
+}
+
+.add-project:hover {
+  opacity: 1;
+}
+
+.new-project:hover {
+  transform: none;
+  background-color: transparent;
+}
+
+.project-color {
+  width: 12px;
+  height: 12px;
+  background-color: wheat;
+  border-radius: 50%;
+  margin-right: 1.6rem;
+}
+
+.project-name {
+  margin-right: auto;
+}
+
+/* Main Content */
+.main {
+  padding: 0 2rem;
+}
+
+.todos-box {
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  height: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.todo-box {
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: min-content 1fr max-content;
+  place-items: center;
+  font-size: 1rem;
+
+  border-bottom: 1.6px solid rgb(220, 220, 220);
+}
+
+.todo-title {
+  font-size: 1.6rem;
+  place-self: start;
+  color: #000;
+}
+
+.todo-description,
+.todo-date {
+  grid-column: 2/3;
+  place-self: start;
+}
+
+.todo-date {
+  color: var(--color-accent);
+}
+
+.date {
+  appearance: none;
+  border: none;
+  outline: none;
+}
+
+.date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+.todo-options {
+  font-size: 1.4rem;
+}
+
+.todo-options > * {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.todo-options > *:not(:last-child) {
+  margin-right: 1.6rem;
+}
+
+.project-type {
+  position: relative;
+}
+
+.projects-avaiable {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  background: var(--color-text);
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  display: none;
+}
+
+.create-todo {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.create-todo .add-project {
+  color: var(--color-accent);
+  font-size: 1.6rem;
+  margin-right: 1rem;
+  padding: 0.2rem 0.4rem;
+  transition: --transition;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.create-todo:hover .add-project {
+  color: var(--color-white);
+  background-color: var(--color-accent);
+}
+
+.create-todo:hover .add-task {
+  color: var(--color-accent);
+}
+
+.add-task {
+  font-size: 1.2rem;
+  padding: 0.8rem 0;
+  transition: var(--transition);
+}
+
+.new-todo-box {
+  margin-top: 1rem;
+  display: none;
+}
+
+.new-todo {
+  border: 1px solid gray;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.new-todo-title,
+.new-todo-description {
+  appearance: none;
+  border: none;
+  outline: none;
+  padding: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.new-todo-options {
+  margin-top: 1rem;
+  font-size: 1rem;
+  display: flex;
+}
+
+.new-todo-option {
+  border: 1px solid gray;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0.4rem;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: var(--transition);
+}
+
+.new-todo-option:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow);
+}
+
+.new-todo-option > :first-child {
+  margin-right: 0.4rem;
+}
+
+.new-todo-btns {
+  display: flex;
+  justify-content: end;
+}
+
+.new-todo-btn {
+  appearance: none;
+  border: none;
+  background-color: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.todo-cancel {
+  border: 1px solid gray;
+  padding: 0.6rem 1.2rem;
+  margin-right: 1rem;
+}
+
+.todo-cancel:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow);
+}
+
+.todo-add {
+  background-color: var(--color-accent);
+  color: #eee;
+  padding: 0.6rem 1.2rem;
+  margin-right: 1rem;
+}
+
+.todo-add:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow);
+}
+
+.display-popup {
+  display: block;
+}
+
+.hide-element {
+  display: none;
+}
+
+@media screen and (min-width: 576px) {
+  .icons {
+    justify-content: start;
+  }
+
+  .icons > :first-child {
+    margin-right: 2.8rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    grid-template-columns: 1fr 1.5fr;
+    grid-template-rows: min-content 1fr;
+    align-items: center;
+  }
+
+  .navigation {
+    display: block;
+  }
+
+  .search-box {
+    padding: 2rem;
+    /* padding-bottom: 0; */
+  }
+}
+
+@media screen and (min-width: 920px) {
+  .container {
+    padding: 0 8rem;
+  }
+
+  .main {
+    align-self: stretch;
+    padding: 2rem;
+  }
+}
+
+@media screen and (min-width: 1170px) {
+  .container {
+    grid-template-columns: 1fr 2.6fr;
+    padding: 0 12rem;
+  }
+}
