@@ -349,6 +349,12 @@ body {
   position: relative;
 }
 
+.selected-project-color {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+}
+
 .projects-avaiable {
   position: absolute;
   bottom: 120%;

@@ -34,14 +34,22 @@ class App {
   constructor() {
     this.todos = [];
     this.projects = [
-      "All",
-      "Shopping",
-      "Vacation",
-      "Assignment",
-      "Workout",
-      "Vacation",
-      "Assignment",
+      { color: "red", name: "All", count: 0 },
+      { color: "blue", name: "Shopping", count: 0 },
+      { color: "orangered", name: "Vacation", count: 0 },
+      { color: "pink", name: "Assignment", count: 0 },
+      { color: "violet", name: "Workout", count: 0 },
     ];
+
+    // this.projects = [
+    //   "All",
+    //   "Shopping",
+    //   "Vacation",
+    //   "Assignment",
+    //   "Workout",
+    //   "Vacation",
+    //   "Assignment",
+    // ];
     this.belongsTo = "All";
     this.selectedProject = "All";
 
@@ -62,36 +70,33 @@ class App {
     });
   }
 
-  // Removing duplicates from all avaialable projects
   renderProjects(container) {
-    const uniqueProjects = this.projects.filter(
-      (item, pos) => this.projects.indexOf(item) === pos
-    );
-    uniqueProjects.forEach((project, idx) =>
-      this.displayProject(container, project, idx)
-    );
+    this.projects.forEach((project) => {
+      this.displayProject(container, project);
+    });
   }
 
   // Displaying projects on the side panel after removing duplication
-  displayProject(container, projectItem, idx) {
+  displayProject(container, projectItem) {
     const project = document.createElement("li");
     project.setAttribute("class", "project");
     container.appendChild(project);
 
     const projectColor = document.createElement("div");
-    projectColor.setAttribute("class", `project-color project-color--${idx}`);
-    // projectColor.style.backgroundColor = `#${this.generateRandomColor()}`;
+    // projectColor.setAttribute("class", `project-color project-color--${idx}`);
+    projectColor.setAttribute("class", `project-color`);
+    projectColor.style.backgroundColor = `${projectItem.color}`;
     project.appendChild(projectColor);
 
     const projectName = document.createElement("span");
     projectName.setAttribute("class", "project-name");
-    projectName.textContent = projectItem;
+    projectName.textContent = projectItem.name;
     project.appendChild(projectName);
 
     const projectNumber = document.createElement("span");
     projectNumber.setAttribute("class", "project-number");
     projectNumber.setAttribute("data-belongsto", projectItem);
-    projectNumber.textContent = 0;
+    projectNumber.textContent = projectItem.count;
     project.appendChild(projectNumber);
   }
 
@@ -110,10 +115,20 @@ class App {
       return;
     });
 
-    newProjectAdd.addEventListener("click", () => {
+    newProjectAdd.addEventListener("click", (e) => {
+      e.stopImmediatePropagation();
+
       if (!newProjectInput.value) return;
 
-      this.projects.push(newProjectInput.value);
+      // Checking if project already exists
+      const projectIndex = this.projects.findIndex(
+        (project) => project.name === newProjectInput.value
+      );
+
+      if (projectIndex === -1) {
+        const project = new Project("red", newProjectInput.value);
+        this.projects.push(project);
+      }
 
       projects.textContent = "";
 
@@ -121,6 +136,7 @@ class App {
 
       this.closePopup(newProjectPopup, overlay);
     });
+
     overlay.addEventListener("click", () => {
       this.closePopup(newProjectPopup, overlay);
     });
@@ -137,6 +153,7 @@ class App {
 
     this.closePopup(createTodo);
     this.openPopup(newTodoBox);
+    newTodoTitle.focus();
 
     this.btnSwtich(true, 0.6);
 
@@ -168,6 +185,15 @@ class App {
 
       if (this.selectedProject === this.belongsTo) this.displayNewTodo(todo);
 
+      // Incrementing todos count
+      this.projects.find((project) => {
+        return project.name === this.belongsTo;
+      }).count++;
+      this.projects[0].count = this.todos.length;
+
+      projects.textContent = "";
+      this.renderProjects(projects);
+
       // projects.textContent = "";
       // this.renderProjects(projects);
       // this.assignToProject();
@@ -175,20 +201,6 @@ class App {
       dateEl.value = "";
     });
   }
-
-  // projectCount() {
-  // const trying = document.querySelector(
-  //   `[data-belongsto = ${this.selectedProject}]`
-  // );
-  //   const trying = document.querySelector(
-  //     `[data-belongsto = ${this.selectedProject}]`
-  //   );
-  //   console.log(trying);
-  //   const count = this.todos.filter(
-  //     (todo) => todo.belongsTo === this.belongsTo
-  //   );
-  //   trying.textContent = count.length;
-  // }
 
   displayNewTodo(todo) {
     let html = `
@@ -215,11 +227,13 @@ class App {
   }
 
   assignToProject(e) {
-    const selectedColorEl = document.querySelector(".selected-color-name");
+    const selectedColorEl = document.querySelector(".selected-project-color");
 
-    this.openPopup(projectsAvailable);
+    selectedColorEl.style.backgroundColor = "red";
+
     projectsAvailable.textContent = "";
     this.renderProjects(projectsAvailable);
+    this.openPopup(projectsAvailable);
 
     if (e.target.classList.contains("project-name")) {
       this.updateProjectName(e);
@@ -229,11 +243,12 @@ class App {
   //////////////////////
   updateProjectName(e) {
     this.belongsTo = e.target.textContent;
-    console.log(e.target.textContent);
     this.closePopup(projectsAvailable);
     selectedProjectEl.textContent = e.target.textContent;
   }
   ////////////////////
+
+  updateColor() {}
 
   filterTodos(e) {
     this.closePopup(newTodoBox);
@@ -274,6 +289,19 @@ class App {
       const deleteIndex = this.todos.findIndex((todo) => todo.id === todoId);
 
       this.todos.splice(deleteIndex, 1);
+
+      //////////////////////////need to rework
+      ////////////////////////
+      this.projects.find((project) => {
+        return project.name === this.belongsTo;
+      }).count--;
+      this.projects[0].count = this.todos.length;
+
+      projects.textContent = "";
+      this.renderProjects(projects);
+      ////////////////////////////////
+      ///////////////////need to rework
+
       e.target.closest(".todo-box").remove();
     }
   }
