@@ -226,6 +226,10 @@ body {
   transition: var(--transition);
 }
 
+.project > *{
+  pointer-events: none;
+}
+
 .project:hover {
   transform: translateX(10px);
 }
@@ -353,6 +357,7 @@ body {
   height: 8px;
   width: 8px;
   border-radius: 50%;
+  background-color: red;
 }
 
 .projects-avaiable {

@@ -10,6 +10,7 @@ const overlay = document.querySelector(".overlay");
 const selectedProjectEl = document.querySelector(".selected-project-name");
 const todoCancelBtn = document.querySelector(".todo-cancel");
 const newTodoBox = document.querySelector(".new-todo-box");
+const selectedColorEl = document.querySelector(".selected-project-color");
 
 class Todo {
   constructor(title, desc, date, priority, belongsTo) {
@@ -40,135 +41,193 @@ class App {
       { color: "pink", name: "Assignment", count: 0 },
       { color: "violet", name: "Workout", count: 0 },
     ];
-
-    // this.projects = [
-    //   "All",
-    //   "Shopping",
-    //   "Vacation",
-    //   "Assignment",
-    //   "Workout",
-    //   "Vacation",
-    //   "Assignment",
-    // ];
+    this.selectedProject = this.projects[0];
     this.belongsTo = "All";
-    this.selectedProject = "All";
+
 
     this.renderProjects(projects);
 
     addProject.addEventListener("click", this.createNewProject.bind(this));
+
     createTodo.addEventListener("click", (e) => {
       this.newTodo(e);
     });
+
     projectType.addEventListener("click", (e) => {
       this.assignToProject(e);
     });
+
     projects.addEventListener("click", (e) => {
       this.filterTodos(e);
     });
+
     todosContainer.addEventListener("click", (e) => {
       this.deleteTodo(e);
     });
   }
 
+  ///////////////////////
+  // Displaying available projects
+  ///////////////////////
+
   renderProjects(container) {
-    this.projects.forEach((project) => {
-      this.displayProject(container, project);
+    this.projects.forEach((projectItem) => {
+      const project = document.createElement("li");
+      project.setAttribute("class", "project");
+      project.setAttribute('data-selection', projectItem.name)
+      container.appendChild(project);
+
+      const projectColor = document.createElement("div");
+      projectColor.setAttribute("class", `project-color`);
+      projectColor.style.backgroundColor = `${projectItem.color}`;
+      project.appendChild(projectColor);
+
+      const projectName = document.createElement("span");
+      projectName.setAttribute("class", "project-name");
+      projectName.textContent = projectItem.name;
+      project.appendChild(projectName);
+
+      const projectNumber = document.createElement("span");
+      projectNumber.setAttribute("class", "project-number");
+      projectNumber.setAttribute("data-belongsto", projectItem);
+      projectNumber.textContent = projectItem.count;
+      project.appendChild(projectNumber);
     });
   }
 
-  // Displaying projects on the side panel after removing duplication
-  displayProject(container, projectItem) {
-    const project = document.createElement("li");
-    project.setAttribute("class", "project");
-    container.appendChild(project);
 
-    const projectColor = document.createElement("div");
-    // projectColor.setAttribute("class", `project-color project-color--${idx}`);
-    projectColor.setAttribute("class", `project-color`);
-    projectColor.style.backgroundColor = `${projectItem.color}`;
-    project.appendChild(projectColor);
+  ///////////////////////
+  // Adding new projects
+  ///////////////////////
 
-    const projectName = document.createElement("span");
-    projectName.setAttribute("class", "project-name");
-    projectName.textContent = projectItem.name;
-    project.appendChild(projectName);
-
-    const projectNumber = document.createElement("span");
-    projectNumber.setAttribute("class", "project-number");
-    projectNumber.setAttribute("data-belongsto", projectItem);
-    projectNumber.textContent = projectItem.count;
-    project.appendChild(projectNumber);
-  }
-
-  // Adding new project on the side panel
   createNewProject() {
     const newProjectPopup = document.querySelector(".new-project-popup");
     const newProjectInput = document.querySelector(".new-project-input");
     const newProjectCancel = document.querySelector(".new-project-cancel");
     const newProjectAdd = document.querySelector(".new-project-add");
 
-    this.openPopup(newProjectPopup, overlay);
+    this.openPopup(newProjectPopup, overlay);              // 1. Open popup window upon
     newProjectInput.focus();
 
-    newProjectCancel.addEventListener("click", () => {
+    newProjectCancel.addEventListener("click", () => {     //2. Close popup if Cancel button is clicked
       this.closePopup(newProjectPopup, overlay);
       return;
     });
 
-    newProjectAdd.addEventListener("click", (e) => {
+    newProjectAdd.addEventListener("click", (e) => {      //3. Event listener for Add Button
       e.stopImmediatePropagation();
 
-      if (!newProjectInput.value) return;
+      if (!newProjectInput.value) return;                 //4. Value REQUIRED validation
 
-      // Checking if project already exists
-      const projectIndex = this.projects.findIndex(
+      const projectIndex = this.projects.findIndex(       //5. Check if Project already exists
         (project) => project.name === newProjectInput.value
       );
 
-      if (projectIndex === -1) {
+      if (projectIndex === -1) {                          //6. If not, push it into projects array
         const project = new Project("red", newProjectInput.value);
         this.projects.push(project);
       }
 
-      projects.textContent = "";
+      projects.textContent = "";                          //7. Clear out Projects container before displaying new projects list
 
-      this.renderProjects(projects);
+      this.renderProjects(projects);                      //8. Display all projects (including the newly added one)
 
+      this.closePopup(newProjectPopup, overlay);          //9. Close the popup window.
+    });
+
+    overlay.addEventListener("click", () => {             
       this.closePopup(newProjectPopup, overlay);
     });
 
-    overlay.addEventListener("click", () => {
-      this.closePopup(newProjectPopup, overlay);
-    });
-
-    newProjectInput.value = "";
+    newProjectInput.value = "";                           //10. Clearing out input field
   }
 
-  // Creating new todo item
+  selectProject(e) {
+    this.belongsTo = e.target.dataset.selection;
+    return this.selectedProject = this.projects.find(project => project.name === e.target.dataset.selection);
+  }
+
+  filterTodos(e) {
+
+    this.closePopup(newTodoBox);
+    this.openPopup(createTodo);
+
+    if (e.target.classList.contains("project")) {
+
+      const selectedProjectTitle = document.querySelector(".selected-project-title");
+  
+      this.selectProject(e);
+
+      selectedProjectTitle.textContent = this.selectedProject.name;
+      
+      this.updateProjectsInfo(e, this.selectedProject);
+      
+      todosContainer.textContent = "";
+
+      if (this.selectedProject.name === "All") {
+        this.todos.forEach((todo) => this.displayNewTodo(todo));
+        return;
+      }
+    }     
+    
+      this.todos
+      .filter((todo) => this.selectedProject.name === todo.belongsTo)
+      .forEach((todo) => this.displayNewTodo(todo));
+    }
+
+
+  ////////////////////
+  // Updating available projects info inside new todo creation box
+  //////////////////////
+  updateProjectsInfo(e, selectedProject) {
+    this.closePopup(projectsAvailable);
+    selectedProjectEl.textContent = this.belongsTo;
+    selectedColorEl.style.backgroundColor = selectedProject.color
+  }
+
+  assignToProject(e) {
+
+    projectsAvailable.textContent = "";
+    this.renderProjects(projectsAvailable);
+    this.openPopup(projectsAvailable);
+
+    if (e.target.classList.contains("project")) {
+      // this.selectProject(e);
+      this.belongsTo = e.target.dataset.selection;
+
+      this.updateProjectsInfo(e,this.selectedProject);
+    }
+  }
+  
+
+  ///////////////////////
+  // Creating a new todo item
+  ///////////////////////
+
   newTodo(e) {
     const newTodoTitle = document.querySelector(".new-todo-title");
     const newTodoDesc = document.querySelector(".new-todo-description");
 
     let title, desc, date;
 
-    this.closePopup(createTodo);
+    this.closePopup(createTodo);                   //1. Displaying new todo popup for entering todo details
     this.openPopup(newTodoBox);
     newTodoTitle.focus();
 
-    this.btnSwtich(true, 0.6);
+    this.btnSwtich(true, 0.6);                     //2. Disabling add button - user cannot click it until atleast todo TITLE is filled out
 
-    newTodoTitle.addEventListener("input", () => {
+    newTodoTitle.addEventListener("input", () => { //3. Event listener for detecting value in the todo TITLE input.
       title = newTodoTitle.value;
       if (title) this.btnSwtich(false, 1);
       else this.btnSwtich(true, 0.6);
     });
 
-    todoCancelBtn.addEventListener("click", () => {
+    todoCancelBtn.addEventListener("click", () => { //4. Close todo filling form if Cancel button is clicked.
       this.openPopup(createTodo);
       this.closePopup(newTodoBox);
     });
 
-    newTodoBox.addEventListener("submit", (e) => {
+    newTodoBox.addEventListener("submit", (e) => {  
       e.preventDefault();
       e.stopImmediatePropagation();
 
@@ -182,8 +241,16 @@ class App {
 
       this.openPopup(createTodo);
       this.closePopup(newTodoBox);
+      
+      // if(this.selectedProject === undefined) this.displayNewTodo(todo)
 
-      if (this.selectedProject === this.belongsTo) this.displayNewTodo(todo);
+      if (this.selectedProject.name === this.belongsTo) {
+        this.displayNewTodo(todo)
+      }
+        else{
+          console.log("diff")
+        }
+   
 
       // Incrementing todos count
       this.projects.find((project) => {
@@ -201,6 +268,10 @@ class App {
       dateEl.value = "";
     });
   }
+
+  ///////////////////////
+  // Creating a new todo item upon submitting the todo form
+  ///////////////////////
 
   displayNewTodo(todo) {
     let html = `
@@ -226,64 +297,13 @@ class App {
     todosContainer.insertAdjacentHTML("beforeend", html);
   }
 
-  assignToProject(e) {
-    const selectedColorEl = document.querySelector(".selected-project-color");
 
-    selectedColorEl.style.backgroundColor = "red";
 
-    projectsAvailable.textContent = "";
-    this.renderProjects(projectsAvailable);
-    this.openPopup(projectsAvailable);
 
-    if (e.target.classList.contains("project-name")) {
-      this.updateProjectName(e);
-    }
-  }
-
-  //////////////////////
-  updateProjectName(e) {
-    this.belongsTo = e.target.textContent;
-    this.closePopup(projectsAvailable);
-    selectedProjectEl.textContent = e.target.textContent;
-  }
-  ////////////////////
-
-  updateColor() {}
-
-  filterTodos(e) {
-    this.closePopup(newTodoBox);
-    this.openPopup(createTodo);
-
-    const selectedProjectTitle = document.querySelector(
-      ".selected-project-title"
-    );
-
-    if (e.target.classList.contains("project-name")) {
-      this.selectedProject = e.target.textContent;
-      selectedProjectTitle.textContent = this.selectedProject;
-
-      this.updateProjectName(e);
-
-      if (e.target.textContent === "All") {
-        todosContainer.textContent = "";
-        this.todos.forEach((todo) => this.displayNewTodo(todo));
-        return;
-      }
-
-      let filtertedTodos = this.todos.filter(
-        (todo) => todo.belongsTo === e.target.textContent
-      );
-
-      todosContainer.textContent = "";
-
-      filtertedTodos.forEach((todo) => {
-        this.displayNewTodo(todo);
-      });
-    }
-  }
 
   deleteTodo(e) {
     if (e.target.classList.contains("todo-delete")) {
+
       const todoId = +e.target.dataset.id;
 
       const deleteIndex = this.todos.findIndex((todo) => todo.id === todoId);
@@ -323,3 +343,38 @@ class App {
 }
 
 const app = new App();
+
+
+
+// filterTodos(e) {
+//   this.closePopup(newTodoBox);
+//   this.openPopup(createTodo);
+
+//   const selectedProjectTitle = document.querySelector(
+//     ".selected-project-title"
+//   );
+
+//   if (e.target.classList.contains("project-name")) {
+//     this.selectedProject = e.target.textContent;
+//     selectedProjectTitle.textContent = this.selectedProject;
+
+//     this.updateProjectsInfo(e);
+
+//     if (e.target.textContent === "All") {
+//       todosContainer.textContent = "";
+//       this.todos.forEach((todo) => this.displayNewTodo(todo));
+//       return;
+//     }
+
+//     let filtertedTodos = this.todos.filter(
+//       (todo) => todo.belongsTo === e.target.textContent
+//     );
+
+//     todosContainer.textContent = "";
+
+//     filtertedTodos.forEach((todo) => {
+//       this.displayNewTodo(todo);
+//     });
+//   }
+// }
+
