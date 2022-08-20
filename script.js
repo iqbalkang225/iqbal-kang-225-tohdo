@@ -11,14 +11,20 @@ const selectedProjectEl = document.querySelector(".selected-project-name");
 const todoCancelBtn = document.querySelector(".todo-cancel");
 const newTodoBox = document.querySelector(".new-todo-box");
 const selectedColorEl = document.querySelector(".selected-project-color");
+const searchEl = document.querySelector('.search-box');
+const priorityEl = document.querySelector('.priority')
+const hamburgerIcon = document.querySelector('.icons > *:first-child')
+const selectedProjectTitle = document.querySelector(".selected-project-title");
+const filtersEl = document.querySelector('.filters');
 
 class Todo {
-  constructor(title, desc, date, priority, belongsTo) {
+  constructor(title, desc, date, priority = "Low", belongsTo, completed = "No") {
     this.title = title;
     this.desc = desc;
     this.date = date;
     this.priority = priority;
     this.belongsTo = belongsTo;
+    this.completed = completed;
     this.id = Math.floor(Math.random() * 50) + 1;
   }
 }
@@ -35,11 +41,11 @@ class App {
   constructor() {
     this.todos = [];
     this.projects = [
-      { color: "red", name: "All", count: 0 },
-      { color: "blue", name: "Shopping", count: 0 },
+      { color: "#BC96E6", name: "All", count: 0 },
+      { color: "#F3EFF5", name: "Shopping", count: 0 },
       { color: "orangered", name: "Vacation", count: 0 },
-      { color: "pink", name: "Assignment", count: 0 },
-      { color: "violet", name: "Workout", count: 0 },
+      { color: "#ED217C", name: "Assignment", count: 0 },
+      { color: "#ED6A5A", name: "Workout", count: 0 },
     ];
     this.selectedProject = this.projects[0];
     this.belongsTo = "All";
@@ -64,6 +70,19 @@ class App {
     todosContainer.addEventListener("click", (e) => {
       this.deleteTodo(e);
     });
+
+    searchEl.addEventListener('submit', (e) => {
+      this.searchTodo(e)
+    })
+
+    hamburgerIcon.addEventListener('click', () => {
+      this.toggleNav()
+    })
+
+    filtersEl.addEventListener('click', (e) => {
+      this.filterTasks(e);
+    })
+
   }
 
   ///////////////////////
@@ -123,8 +142,8 @@ class App {
         (project) => project.name === newProjectInput.value
       );
 
-      if (projectIndex === -1) {                          //6. If not, push it into projects array
-        const project = new Project("red", newProjectInput.value);
+      if (projectIndex === -1) {                          //6. If not, push it into projects array after capitalizing name
+        const project = new Project(this.generateRandomColor(), this.capitalizeWord(newProjectInput.value));
         this.projects.push(project);
       }
 
@@ -154,7 +173,7 @@ class App {
 
     if (e.target.classList.contains("project")) {
 
-      const selectedProjectTitle = document.querySelector(".selected-project-title");
+ 
   
       this.selectProject(e);
 
@@ -192,7 +211,6 @@ class App {
     this.openPopup(projectsAvailable);
 
     if (e.target.classList.contains("project")) {
-      // this.selectProject(e);
       this.belongsTo = e.target.dataset.selection;
 
       this.updateProjectsInfo(e,this.selectedProject);
@@ -208,7 +226,7 @@ class App {
     const newTodoTitle = document.querySelector(".new-todo-title");
     const newTodoDesc = document.querySelector(".new-todo-description");
 
-    let title, desc, date;
+    let title, desc, date, priority;
 
     this.closePopup(createTodo);                   //1. Displaying new todo popup for entering todo details
     this.openPopup(newTodoBox);
@@ -227,6 +245,11 @@ class App {
       this.closePopup(newTodoBox);
     });
 
+    priorityEl.addEventListener('change', (e) => {
+      console.log('fdf')
+      priority = priorityEl.value;
+    })
+
     newTodoBox.addEventListener("submit", (e) => {  
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -235,7 +258,7 @@ class App {
       desc = newTodoDesc.value;
       date = dateEl.value;
 
-      const todo = new Todo(title, desc, date, "high", this.belongsTo);
+      const todo = new Todo(title, desc, date, priority, this.belongsTo);
 
       this.todos.push(todo);
 
@@ -261,12 +284,16 @@ class App {
       projects.textContent = "";
       this.renderProjects(projects);
 
-      // projects.textContent = "";
-      // this.renderProjects(projects);
-      // this.assignToProject();
       newTodoTitle.value = newTodoDesc.value = "";
       dateEl.value = "";
     });
+  }
+
+  updateTodoCount() {
+    this.projects.find((project) => {
+      return project.name === this.belongsTo;
+    }).count++;
+    this.projects[0].count = this.todos.length;
   }
 
   ///////////////////////
@@ -274,31 +301,63 @@ class App {
   ///////////////////////
 
   displayNewTodo(todo) {
-    let html = `
-        <div class="todo-box">
 
-          <div class="check"></div>
+    const todoBox = document.createElement('div');
+    todoBox.setAttribute('class', 'todo-box')
+    todosContainer.appendChild(todoBox);
 
-          <p class="todo-title">${todo.title}</p>
+    const checkMark = document.createElement('div');
+    checkMark.setAttribute('class', "check");
+    checkMark.setAttribute('data-id', todo.id);
+    todoBox.appendChild(checkMark)
 
-          <div class="todo-options">
-            <i class="fa-solid fa-flag priority"></i>
-            <i class="fa-solid fa-pen edit"></i>
-            <i class="fa-solid fa-trash todo-delete" data-id="${todo.id}"></i>
-          </div>
+    const todoTitle = document.createElement('p');
+    todoTitle.setAttribute("class", "todo-title");
+    todoTitle.textContent = todo.title;
+    todoBox.appendChild(todoTitle);
 
-          <p class="todo-description">${todo.desc}</p>
+    const todoOptions = document.createElement('div');
+    todoOptions.setAttribute('class', "todo-options");
+    todoBox.appendChild(todoOptions); 
 
-          <p class="todo-date">${todo.date}</p>
+    const belongsToTag = document.createElement('span');
+    belongsToTag.setAttribute('class', 'belongs-to-tag');
+    belongsToTag.textContent = todo.belongsTo;
+    belongsToTag.style.backgroundColor = this.setColor(this.projects, todo.belongsTo).color;
+    todoOptions.appendChild(belongsToTag);
 
-        </div>
-        `;
+    const priorityTag = document.createElement('span');
+    priorityTag.setAttribute('class', 'priority-tag');
 
-    todosContainer.insertAdjacentHTML("beforeend", html);
+    if(todo.priority === "Low") priorityTag.style.background = "#72B01D";
+    if(todo.priority === "Medium") priorityTag.style.background = "#BFAB25";
+    if(todo.priority === "High") priorityTag.style.background = "red";
+    priorityTag.textContent = todo.priority;
+    todoOptions.appendChild(priorityTag);
+
+    const editBtn = document.createElement('i');
+    editBtn.innerHTML = `<i class="fa-solid fa-pen edit">`;
+    todoOptions.appendChild(editBtn);
+
+    const deleteBtn = document.createElement('i');
+    deleteBtn.innerHTML = `<i class="fa-solid fa-trash todo-delete" data-id="${todo.id}"></i>`;
+    todoOptions.appendChild(deleteBtn);
+
+    const todoDesc = document.createElement('p');
+    todoDesc.setAttribute('class', 'todo-description');
+    todoDesc.textContent = todo.desc;
+    todoBox.appendChild(todoDesc);
+
+    const todoDate = document.createElement('p')
+    todoDate.setAttribute('class', 'todo-date');
+    todoDate.textContent = todo.date;
+    todoBox.appendChild(todoDate);
   }
 
 
-
+  setColor(projects,todo) {
+    return projects.find(project => project.name === todo)
+  }
 
 
   deleteTodo(e) {
@@ -324,6 +383,34 @@ class App {
 
       e.target.closest(".todo-box").remove();
     }
+
+    if (e.target.classList.contains("check")) {
+      const todoId = +e.target.dataset.id;
+      
+      e.target.nextElementSibling.style.setProperty("--completed-width", '100%');
+      e.target.addEventListener('transitionend', () => {
+        e.target.closest(".todo-box").remove();
+          }) 
+
+      const completedTodo = this.todos.find((todo) => todo.id === todoId);
+      completedTodo.completed = "Completed";
+    }
+  }
+
+  searchTodo(e) {
+    e.preventDefault();
+
+    let search = document.querySelector('.search');
+
+    const searchResult = this.todos.filter(todo => todo.title === search.value);
+
+    selectedProjectTitle.textContent = "All";
+
+    todosContainer.textContent = "";
+
+    searchResult.forEach(result =>this.displayNewTodo(result));
+
+    search.value = "";
   }
 
   closePopup(container, overlay) {
@@ -340,41 +427,51 @@ class App {
     todoAdd.style.opacity = opacity;
     todoAdd.disabled = status;
   }
+
+  capitalizeWord(word) {
+    return word.slice(0,1).toUpperCase() + word.slice(1)
+  }
+
+  toggleNav() {
+    const navigation = document.querySelector('.navigation');
+    const container = document.querySelector('.container');
+
+    navigation.classList.toggle('hide-element');
+    navigation.classList.toggle('expanded');
+   }
+
+   generateRandomColor() {
+    return `#${Math.floor(Math.random()*16777215).toString(16)}`;
+   }
+
+   filterTasks(e) {
+    if(e.target.classList.contains('completed')) {
+      todosContainer.textContent = "";
+      this.todos.filter(todo => todo.completed === "Completed")
+      .forEach(completedTodo => this.displayNewTodo(completedTodo));
+    }
+    
+    if(e.target.classList.contains('low')) {
+      todosContainer.textContent = "";
+      this.todos.filter(todo => todo.priority === "Low")
+      .forEach(priority => this.displayNewTodo(priority));
+    }
+    
+    if(e.target.classList.contains('medium')) {
+      todosContainer.textContent = "";
+      this.todos.filter(todo =>  todo.priority  === "Medium")
+      .forEach(priority => this.displayNewTodo(priority));
+    }
+    
+    if(e.target.classList.contains('high')) {
+      todosContainer.textContent = "";
+      this.todos.filter(todo =>  todo.priority === "High")
+      .forEach(priority => this.displayNewTodo(priority));
+    }
+   }
 }
 
 const app = new App();
 
 
-
-// filterTodos(e) {
-//   this.closePopup(newTodoBox);
-//   this.openPopup(createTodo);
-
-//   const selectedProjectTitle = document.querySelector(
-//     ".selected-project-title"
-//   );
-
-//   if (e.target.classList.contains("project-name")) {
-//     this.selectedProject = e.target.textContent;
-//     selectedProjectTitle.textContent = this.selectedProject;
-
-//     this.updateProjectsInfo(e);
-
-//     if (e.target.textContent === "All") {
-//       todosContainer.textContent = "";
-//       this.todos.forEach((todo) => this.displayNewTodo(todo));
-//       return;
-//     }
-
-//     let filtertedTodos = this.todos.filter(
-//       (todo) => todo.belongsTo === e.target.textContent
-//     );
-
-//     todosContainer.textContent = "";
-
-//     filtertedTodos.forEach((todo) => {
-//       this.displayNewTodo(todo);
-//     });
-//   }
-// }
 

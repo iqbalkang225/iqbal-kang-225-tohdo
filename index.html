@@ -30,12 +30,12 @@
       </div>
 
       <!-- Search -->
-      <div class="search-box">
+      <form class="search-box">
         <input type="text" class="search" />
-      </div>
+      </form>
 
       <!-- Left side Navigation -->
-      <nav class="navigation">
+      <nav class="navigation hide-element">
         <!-- Filtering Options -->
         <ul class="filters">
           <li class="filter completed">
@@ -50,13 +50,13 @@
             <span class="filter-number">0</span>
           </li>
 
-          <li class="filter Medium">
+          <li class="filter medium">
             <div class="check"></div>
             <span class="filter-name">Medium priority</span>
             <span class="filter-number">0</span>
           </li>
 
-          <li class="filter Low">
+          <li class="filter low">
             <div class="check"></div>
             <span class="filter-name">Low priority</span>
             <span class="filter-number">0</span>
@@ -105,11 +105,11 @@
       <main class="main">
         <!-- Main Content -->
         <div class="todos-box">
+          <img src="./bg.svg" alt="" class="todos-svg">
           <h2 class="selected-project-title">All</h2>
 
           <!-- will be added dynamically -->
           <div class="todos"></div>
-          <!-- till here -->
 
           <div class="create-todo">
             <i class="fa-solid fa-plus add-project"></i>
@@ -137,9 +137,13 @@
                   <div class="projects-avaiable hide-element"></div>
                 </div>
 
-                <div class="priority new-todo-option">
-                  <i class="fa-solid fa-flag"></i>
-                  <p>Priority</p>
+                <div class="priority-list new-todo-option">
+                  <select class="priority">
+                    <option value="">Priority</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                  </select>
                 </div>
               </div>
             </div>
