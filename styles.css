@@ -68,6 +68,7 @@ body {
   bottom: 0;
   background-color: var(--color-primary);
   z-index: 2;
+  padding: 2rem;
 }
 
 
@@ -622,6 +623,11 @@ opacity: 1;
     padding: 2rem;
     /* padding-bottom: 0; */
   }
+
+  .main {
+    align-self: stretch;
+    padding: 2rem;
+  }
 }
 
 @media screen and (min-width: 920px) {
@@ -629,10 +635,7 @@ opacity: 1;
     padding: 0 8rem;
   }
 
-  .main {
-    align-self: stretch;
-    padding: 2rem;
-  }
+  
 }
 
 @media screen and (min-width: 1170px) {

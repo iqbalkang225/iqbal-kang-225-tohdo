@@ -50,6 +50,7 @@ class App {
     this.selectedProject = this.projects[0];
     this.belongsTo = "All";
 
+    this.getLocalStorage();
 
     this.renderProjects(projects);
 
@@ -262,6 +263,8 @@ class App {
 
       this.todos.push(todo);
 
+      this.setLocalStorage();
+
       this.openPopup(createTodo);
       this.closePopup(newTodoBox);
       
@@ -444,6 +447,26 @@ class App {
     return `#${Math.floor(Math.random()*16777215).toString(16)}`;
    }
 
+   setLocalStorage() {
+    localStorage.setItem('todos', JSON.stringify(this.todos))
+   }
+
+   getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('todos'));
+    
+    if(!data) return;
+
+    this.todos = data;
+
+    this.todos.forEach(todo => this.displayNewTodo(todo));
+
+   }
+
+   resetLocalStorage() {
+    localStorage.removeItem('todos');
+    
+   }
+
    filterTasks(e) {
     if(e.target.classList.contains('completed')) {
       todosContainer.textContent = "";
@@ -468,7 +491,7 @@ class App {
       this.todos.filter(todo =>  todo.priority === "High")
       .forEach(priority => this.displayNewTodo(priority));
     }
-   }
+  }
 }
 
 const app = new App();
