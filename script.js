@@ -336,7 +336,7 @@ class App {
     todoOptions.appendChild(priorityTag);
 
     const editBtn = document.createElement('i');
-    editBtn.innerHTML = `<i class="fa-solid fa-pen edit">`;
+    editBtn.innerHTML = `<i class="fa-solid fa-pen todo-edit">`;
     todoOptions.appendChild(editBtn);
 
     const deleteBtn = document.createElement('i');
