@@ -201,6 +201,7 @@ body {
 .filter:hover {
   transform: translateX(-10px);
 }
+
 .check {
   border: 1.5px solid var(--color-primary);
   height: 16px;
@@ -227,11 +228,34 @@ body {
 
 .check:hover.check::before{
 opacity: 1;
-
 }
 
 .filter-name {
   margin-right: auto;
+}
+
+.completed-icon{
+  margin-right: 1rem;
+  color: var(--color-text);
+
+}
+
+.low-p-icon{
+  color: #72B01D;
+  margin-right: 1rem;
+  opacity: .8;
+}
+
+.medium-p-icon{
+  color: #BFAB25;
+  margin-right: 1rem;
+  opacity: .8;
+}
+
+.high-p-icon{
+  color: var(--color-accent);
+  margin-right: 1rem;
+  opacity: .8;
 }
 
 .projects-box {
@@ -464,6 +488,11 @@ opacity: 1;
   padding: 0.8rem 0;
   transition: var(--transition);
 }
+
+.selected-project-title{
+  margin-bottom: 2rem;
+}
+
 
 .new-todo-box {
   margin-top: 1rem;
