@@ -17,6 +17,7 @@ const hamburgerIcon = document.querySelector('.icons > *:first-child');
 const closeIcon = document.querySelector('.close-icon');
 const selectedProjectTitle = document.querySelector('.selected-project-title');
 const filtersEl = document.querySelector('.filters');
+const navigation = document.querySelector('.navigation');
 
 const defaultProjects = [
   { color: '#BC96E6', name: 'All', count: 0 },
@@ -190,6 +191,8 @@ class App {
     if (e.target.classList.contains('project')) {
       this.selectProject(e);
 
+      this.hideNav();
+
       selectedProjectTitle.textContent = this.selectedProject.name;
 
       this.updateProjectsInfo(e, this.selectedProject);
@@ -207,11 +210,19 @@ class App {
       .forEach((todo) => this.displayNewTodo(todo));
   }
 
+  hideNav() {
+    navigation.classList.add('hide-element');
+    closeIcon.classList.add('hide-element');
+    navigation.classList.remove('expanded');
+  }
+
   filterTasks(e) {
     const filter = e.target.dataset.filter;
     const title = e.target.dataset.title;
 
     selectedProjectTitle.textContent = title;
+
+    this.hideNav();
 
     if (e.target.classList.contains('filter') && filter === 'completed') {
       todosContainer.textContent = '';
@@ -455,7 +466,7 @@ class App {
   }
 
   toggleNav() {
-    const navigation = document.querySelector('.navigation');
+    // const navigation = document.querySelector('.navigation');
     // const container = document.querySelector('.close-icon');
 
     navigation.classList.toggle('hide-element');
