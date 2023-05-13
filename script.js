@@ -14,6 +14,7 @@ const selectedColorEl = document.querySelector('.selected-project-color');
 const searchEl = document.querySelector('.search-box');
 const priorityEl = document.querySelector('.priority');
 const hamburgerIcon = document.querySelector('.icons > *:first-child');
+const closeIcon = document.querySelector('.close-icon');
 const selectedProjectTitle = document.querySelector('.selected-project-title');
 const filtersEl = document.querySelector('.filters');
 
@@ -79,6 +80,10 @@ class App {
     });
 
     hamburgerIcon.addEventListener('click', () => {
+      this.toggleNav();
+    });
+
+    closeIcon.addEventListener('click', () => {
       this.toggleNav();
     });
 
@@ -451,9 +456,10 @@ class App {
 
   toggleNav() {
     const navigation = document.querySelector('.navigation');
-    const container = document.querySelector('.container');
+    // const container = document.querySelector('.close-icon');
 
     navigation.classList.toggle('hide-element');
+    closeIcon.classList.toggle('hide-element');
     navigation.classList.toggle('expanded');
   }
 

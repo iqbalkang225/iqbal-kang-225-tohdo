@@ -60,15 +60,31 @@ body {
   opacity: 0.1;
 }
 
+.close-icon {
+  color: rgb(190, 11, 11);
+  font-size: 3rem;
+  display: flex;
+  justify-content: end;
+  margin: 0 1rem 2rem;
+}
+
+.close-icon > i {
+  cursor: pointer;
+}
+
+.close-icon > i:hover {
+  color: red;
+}
+
 .expanded {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
-  left: 20%;
   bottom: 0;
   background-color: var(--color-primary);
   z-index: 2;
   padding: 2rem;
+  width: 330px;
 }
 
 /* Popups */
@@ -624,6 +640,7 @@ body {
   .main {
     align-self: stretch;
     padding: 2rem;
+    grid-column: 2/-1;
   }
 }
 
