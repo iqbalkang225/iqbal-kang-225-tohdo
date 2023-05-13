@@ -295,7 +295,8 @@ class App {
 
       // if(this.selectedProject === undefined) this.displayNewTodo(todo)
 
-      if (this.selectedProject.name === this.belongsTo) this.displayNewTodo(todo);
+      if (this.selectedProject.name === this.belongsTo || this.selectedProject.name === 'All')
+        this.displayNewTodo(todo);
 
       this.updateTodoCount('add');
 
