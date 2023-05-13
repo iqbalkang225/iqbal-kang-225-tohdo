@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+      integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <title>Tohdo</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="logo">tohdo</h1>
+      <!-- Icons -->
+      <div class="icons">
+        <i class="fa-solid fa-bars"></i>
+        <!-- <i class="fa-solid fa-house"></i> -->
+      </div>
+
+      <!-- Search -->
+      <form class="search-box">
+        <input type="text" class="search" placeholder="Search todo" />
+      </form>
+
+      <!-- Left side Navigation -->
+      <nav class="navigation hide-element">
+        <!-- Filtering Options -->
+        <ul class="filters">
+          <li class="filter" data-filter="completed" data-title="completed tasks">
+            <span class="filter-name">Completed</span>
+            <i class="fa-solid fa-circle-check completed-icon"></i>
+          </li>
+
+          <li class="filter" data-filter="high" data-title="high priority tasks">
+            <span class="filter-name">High priority</span>
+            <i class="fa-solid fa-flag high-p-icon"></i>
+          </li>
+
+          <li class="filter" data-filter="medium" data-title="medium priority tasks">
+            <span class="filter-name">Medium priority</span>
+            <i class="fa-solid fa-flag medium-p-icon"></i>
+          </li>
+
+          <li class="filter" data-filter="low" data-title="low priority tasks">
+            <span class="filter-name">Low priority</span>
+            <i class="fa-solid fa-flag low-p-icon"></i>
+          </li>
+        </ul>
+
+        <!-- projects -->
+        <ul class="projects-box">
+          <li class="project new-project">
+            <i class="fa-solid fa-caret-down drop-down"></i>
+            <span>Projects</span>
+            <i class="fa-solid fa-plus add-project"></i>
+          </li>
+
+          <!-- Will be added dynamically -->
+          <ul class="projects">
+            <!-- <li class="project">
+              <div class="project-color"></div>
+              <span class="project-name">All</span>
+              <span class="project-number">0</span>
+            </li> -->
+          </ul>
+
+          <!-- Till here -->
+        </ul>
+      </nav>
+
+      <main class="main">
+        <!-- Main Content -->
+        <div class="todos-box">
+          <img src="./bg.svg" alt="" class="todos-svg" />
+          <h2 class="selected-project-title">All</h2>
+
+          <!-- will be added dynamically -->
+          <div class="todos"></div>
+
+          <div class="create-todo">
+            <i class="fa-solid fa-plus add-project"></i>
+            <span class="add-task">Add task</span>
+          </div>
+
+          <!-- New todo -->
+          <form action="" class="new-todo-box hide-element">
+            <div class="new-todo">
+              <input type="text" class="new-todo-title" placeholder="Title" />
+              <input type="text" class="new-todo-description" placeholder="Description" />
+              <div class="new-todo-options">
+                <div class="due-date new-todo-option">
+                  <input type="date" class="date" />
+                </div>
+
+                <div class="project-type new-todo-option">
+                  <div class="selected-project-color"></div>
+                  <p class="selected-project-name">All</p>
+
+                  <div class="projects-avaiable hide-element"></div>
+                </div>
+
+                <div class="priority-list new-todo-option">
+                  <select class="priority">
+                    <option value="">Priority</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="new-todo-btns">
+              <button type="button" class="todo-cancel btn">Cancel</button>
+              <button class="todo-add btn">Add task</button>
+            </div>
+          </form>
+        </div>
+      </main>
+
+      <!-- New project popup positioned absolute -->
+      <div class="popup new-project-popup hide-element">
+        <p class="new-project-title">New project</p>
+        <div class="new-project-input-box">
+          <i class="fa-solid fa-folder-plus new-project-icon"></i>
+          <input type="text" class="new-project-input" placeholder="Enter project title" />
+        </div>
+
+        <div class="new-project-btns">
+          <button class="btn new-project-cancel">Cancel</button>
+          <button class="btn new-project-add">Add project</button>
+        </div>
+      </div>
+      <div class="overlay hide-element"></div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>
