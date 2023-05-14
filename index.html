@@ -19,116 +19,120 @@
     <title>Tohdo</title>
   </head>
   <body>
+    <h1 class="logo">tohdo</h1>
     <div class="container">
-      <h1 class="logo">tohdo</h1>
       <!-- Icons -->
       <div class="icons">
         <i class="fa-solid fa-bars"></i>
         <!-- <i class="fa-solid fa-house"></i> -->
       </div>
 
-      <!-- Search -->
-      <form class="search-box">
-        <input type="text" class="search" placeholder="Search todo" />
-      </form>
+      <div class="main-container">
+        <!-- Left side Navigation -->
+        <nav class="navigation hide-element">
+          <!-- Filtering Options -->
+          <ul class="filters">
+            <div class="close-icon hide-element">
+              <i class="fa-solid fa-close"></i>
+            </div>
+            <li class="filter" data-filter="completed" data-title="completed tasks">
+              <span class="filter-name">Completed</span>
+              <i class="fa-solid fa-circle-check completed-icon"></i>
+            </li>
 
-      <!-- Left side Navigation -->
-      <nav class="navigation hide-element">
-        <!-- Filtering Options -->
-        <ul class="filters">
-          <div class="close-icon hide-element">
-            <i class="fa-solid fa-close"></i>
-          </div>
-          <li class="filter" data-filter="completed" data-title="completed tasks">
-            <span class="filter-name">Completed</span>
-            <i class="fa-solid fa-circle-check completed-icon"></i>
-          </li>
+            <li class="filter" data-filter="high" data-title="high priority tasks">
+              <span class="filter-name">High priority</span>
+              <i class="fa-solid fa-flag high-p-icon"></i>
+            </li>
 
-          <li class="filter" data-filter="high" data-title="high priority tasks">
-            <span class="filter-name">High priority</span>
-            <i class="fa-solid fa-flag high-p-icon"></i>
-          </li>
+            <li class="filter" data-filter="medium" data-title="medium priority tasks">
+              <span class="filter-name">Medium priority</span>
+              <i class="fa-solid fa-flag medium-p-icon"></i>
+            </li>
 
-          <li class="filter" data-filter="medium" data-title="medium priority tasks">
-            <span class="filter-name">Medium priority</span>
-            <i class="fa-solid fa-flag medium-p-icon"></i>
-          </li>
+            <li class="filter" data-filter="low" data-title="low priority tasks">
+              <span class="filter-name">Low priority</span>
+              <i class="fa-solid fa-flag low-p-icon"></i>
+            </li>
+          </ul>
 
-          <li class="filter" data-filter="low" data-title="low priority tasks">
-            <span class="filter-name">Low priority</span>
-            <i class="fa-solid fa-flag low-p-icon"></i>
-          </li>
-        </ul>
+          <!-- projects -->
+          <ul class="projects-box">
+            <li class="project new-project">
+              <i class="fa-solid fa-caret-down drop-down"></i>
+              <span>Projects</span>
+              <i class="fa-solid fa-plus add-project"></i>
+            </li>
 
-        <!-- projects -->
-        <ul class="projects-box">
-          <li class="project new-project">
-            <i class="fa-solid fa-caret-down drop-down"></i>
-            <span>Projects</span>
-            <i class="fa-solid fa-plus add-project"></i>
-          </li>
-
-          <!-- Will be added dynamically -->
-          <ul class="projects">
-            <!-- <li class="project">
+            <!-- Will be added dynamically -->
+            <ul class="projects">
+              <!-- <li class="project">
               <div class="project-color"></div>
               <span class="project-name">All</span>
               <span class="project-number">0</span>
             </li> -->
+            </ul>
+
+            <!-- Till here -->
           </ul>
+        </nav>
 
-          <!-- Till here -->
-        </ul>
-      </nav>
+        <main class="main">
+          <!-- Main Content -->
+          <div class="todos-box">
+            <img src="./bg.svg" alt="" class="todos-svg" />
 
-      <main class="main">
-        <!-- Main Content -->
-        <div class="todos-box">
-          <img src="./bg.svg" alt="" class="todos-svg" />
-          <h2 class="selected-project-title">All</h2>
+            <div class="header">
+              <h2 class="selected-project-title">All</h2>
+              <!-- Search -->
+              <form class="search-box">
+                <input type="text" class="search" placeholder="Search todo" />
+              </form>
+            </div>
 
-          <!-- will be added dynamically -->
-          <div class="todos"></div>
+            <!-- will be added dynamically -->
+            <div class="todos"></div>
 
-          <div class="create-todo">
-            <i class="fa-solid fa-plus add-project"></i>
-            <span class="add-task">Add task</span>
-          </div>
+            <div class="create-todo">
+              <i class="fa-solid fa-plus add-project"></i>
+              <span class="add-task">Add task</span>
+            </div>
 
-          <!-- New todo -->
-          <form action="" class="new-todo-box hide-element">
-            <div class="new-todo">
-              <input type="text" class="new-todo-title" placeholder="Title" />
-              <input type="text" class="new-todo-description" placeholder="Description" />
-              <div class="new-todo-options">
-                <div class="due-date new-todo-option">
-                  <input type="date" class="date" />
-                </div>
+            <!-- New todo -->
+            <form action="" class="new-todo-box hide-element">
+              <div class="new-todo">
+                <input type="text" class="new-todo-title" placeholder="Title" />
+                <input type="text" class="new-todo-description" placeholder="Description" />
+                <div class="new-todo-options">
+                  <div class="due-date new-todo-option">
+                    <input type="date" class="date" />
+                  </div>
 
-                <div class="project-type new-todo-option">
-                  <div class="selected-project-color"></div>
-                  <p class="selected-project-name">All</p>
+                  <div class="project-type new-todo-option">
+                    <div class="selected-project-color"></div>
+                    <p class="selected-project-name">All</p>
 
-                  <div class="projects-avaiable hide-element"></div>
-                </div>
+                    <div class="projects-avaiable hide-element"></div>
+                  </div>
 
-                <div class="priority-list new-todo-option">
-                  <select class="priority">
-                    <option value="">Priority</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                  </select>
+                  <div class="priority-list new-todo-option">
+                    <select class="priority">
+                      <option value="">Priority</option>
+                      <option value="Low">Low</option>
+                      <option value="Medium">Medium</option>
+                      <option value="High">High</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="new-todo-btns">
-              <button type="button" class="todo-cancel btn">Cancel</button>
-              <button class="todo-add btn">Add task</button>
-            </div>
-          </form>
-        </div>
-      </main>
+              <div class="new-todo-btns">
+                <button type="button" class="todo-cancel btn">Cancel</button>
+                <button class="todo-add btn">Add task</button>
+              </div>
+            </form>
+          </div>
+        </main>
+      </div>
 
       <!-- New project popup positioned absolute -->
       <div class="popup new-project-popup hide-element">

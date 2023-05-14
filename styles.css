@@ -37,23 +37,29 @@ body {
   color: var(--color-text);
   font-size: 1.4rem;
   line-height: 1.6;
+  position: relative;
 }
 
 .container {
-  min-height: 100vh;
-  position: relative;
+  height: 100vh;
+  max-height: 100vh;
 
+  display: flex;
+  flex-direction: column;
+}
+
+.main-container {
+  flex-grow: 1;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: min-content min-content;
 }
 
 .logo {
   display: none;
-  position: absolute;
+  position: fixed;
   font-size: 20rem;
   transform: rotate(-90deg);
-  left: -1%;
+  left: -0;
   top: 0;
   bottom: 0;
   z-index: -1;
@@ -169,12 +175,7 @@ body {
 
 .icons {
   font-size: 2.4rem;
-
-  /* margin-bottom: 4rem; */
   padding: 2rem;
-
-  display: flex;
-  justify-content: space-between;
 }
 
 .icons > * {
@@ -184,18 +185,6 @@ body {
 .icons > *:hover {
   transition: var(--transition);
   opacity: 0.6;
-}
-
-.search-box {
-  padding: 2rem;
-}
-
-.search {
-  border: none;
-  outline: none;
-  width: 100%;
-  padding: 1rem;
-  border-radius: 10px;
 }
 
 .filter {
@@ -344,6 +333,24 @@ body {
 /* Main Content */
 .main {
   padding: 0 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-box {
+  /* background-color: red; */
+  width: 50%;
+}
+
+.search {
+  border: 1px solid black;
+  outline: none;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 10px;
 }
 
 .todos-box {
@@ -611,30 +618,18 @@ body {
   display: none;
 }
 
-@media screen and (min-width: 576px) {
-  .icons {
-    justify-content: start;
-  }
-
-  .icons > :first-child {
-    margin-right: 2.8rem;
-  }
-}
-
 @media screen and (min-width: 768px) {
-  .container {
-    grid-template-columns: 1fr 1.5fr;
-    grid-template-rows: min-content 1fr;
-    align-items: center;
-  }
-
   .navigation {
     display: block;
   }
 
-  .search-box {
-    padding: 2rem;
-    /* padding-bottom: 0; */
+  .icons {
+    display: none;
+  }
+
+  .main-container {
+    grid-template-columns: 1fr 2fr;
+    place-content: center;
   }
 
   .main {
@@ -651,9 +646,31 @@ body {
 }
 
 @media screen and (min-width: 1170px) {
+  .logo {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1710px) {
+  html {
+    font-size: 80%;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  html {
+    font-size: 100%;
+  }
+
+  .logo {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 2500px) {
   .container {
-    grid-template-columns: 1fr 2.6fr;
-    padding: 0 12rem;
+    width: 70vw;
+    margin: 0 auto;
   }
 
   .logo {
