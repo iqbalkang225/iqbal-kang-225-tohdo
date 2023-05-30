@@ -450,7 +450,7 @@ body {
 
 .projects-avaiable {
   position: absolute;
-  bottom: 120%;
+  top: 120%;
   left: 0;
   background: var(--color-primary);
   border-radius: 10px;
