@@ -4,7 +4,9 @@
 <img src="https://socialify.git.ci/iqbalkang225/iqbal-kang-225-tohdo/image?language=1&name=1&owner=1&theme=Light" />
 </p>
 
-<p id="description">A handy tool for busy bees this to-do app is the perfect assistant for anyone looking to streamline their day and stay on top of their responsibilities. With an intuitive design and powerful features it's the go-to way to stay organized and get things done. This is a front-end application designed to provide a practical learning experience. The primary goal was to gain a deeper understanding of web development and to create a functional and well-designed application from scratch.</p>
+<p id="description">A handy tool for busy bees this to-do app is the perfect assistant for anyone looking to streamline their day and stay on top of their responsibilities. With an intuitive design and powerful features it's the go-to way to stay organized and get things done. 
+  
+This is a front-end application designed to provide a practical learning experience. The primary goal was to gain a deeper understanding of web development and to create a functional and well-designed application from scratch.</p>
 
 <h2>🚀 Hosted At</h2>
 
