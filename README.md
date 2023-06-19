@@ -34,15 +34,15 @@ Technologies used in the project:
 
 <h2>Project Screenshots</h2>
 
-<img src="https://res.cloudinary.com/dydbhumso/image/upload/v1685743097/crossgroupvisibility_exd9nu.png" alt="project-screenshot" width="800" height="400/">
+<img src="https://tohdo-links.s3.us-west-1.amazonaws.com/crossgroupvisibility.png" alt="project-screenshot" width="800">
 
-<img src="https://res.cloudinary.com/dydbhumso/image/upload/v1685743097/organizetaskspriorities_oeo9t4.png" alt="project-screenshot" width="800" height="400/">
+<img src="https://tohdo-links.s3.us-west-1.amazonaws.com/organizetaskspriorities.png" alt="project-screenshot" width="800" >
 
-<img src="https://res.cloudinary.com/dydbhumso/image/upload/v1685743098/customizetodogrouping_tzhrl0.png" alt="project-screenshot" width="800" height="400/">
+<img src="https://tohdo-links.s3.us-west-1.amazonaws.com/customizetodogrouping.png" alt="project-screenshot" width="800" >
 
-<img src="https://res.cloudinary.com/dydbhumso/image/upload/v1685743098/organizetodos_zqlcv5.png" alt="project-screenshot" width="800" height="400/">
+<img src="https://tohdo-links.s3.us-west-1.amazonaws.com/organizetodos.png" alt="project-screenshot" width="800" >
 
-<img src="https://res.cloudinary.com/dydbhumso/image/upload/v1685743098/trackcompletedtasks_o48utt.png" alt="project-screenshot" width="800" height="400/">
+<img src="https://tohdo-links.s3.us-west-1.amazonaws.com/trackcompletedtasks.png" alt="project-screenshot" width="800">
 
 <h2>Conclusion</h2>
 While working on this project I faced some obstacles which allowed me to dive deeper into the complexities of web development and broaden my skill set. I implemented Object Oriented Programming concepts to develop this app. With this project I gained a better understanding of the whole process of designing and development.
